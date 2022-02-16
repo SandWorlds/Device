@@ -1,18 +1,24 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
 }
+
+
 
 android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.uhf.dvice"
         minSdk 21
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 
 
@@ -22,11 +28,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+        disable 'TypographyFractions', 'TypographyQuotes'
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
@@ -36,5 +47,9 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
+    implementation files('libs/gpioControl.jar')
+    implementation files('libs/SenterOpenApi_IoT_1.2.3.95_Common.jar')
+    implementation files('libs/SenterOpenApi_IoT_1.2.3.95_Function_KeyManager.jar')
+    implementation files('libs/serial.aar')
 }
+
