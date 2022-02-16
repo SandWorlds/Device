@@ -1,20 +1,7 @@
 plugins {
     id 'com.android.library'
-    id 'maven-publish'
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.android'
-                artifactId = 'library'
-                version = '1.0-dev02'
-            }
-        }
-    }
-}
 
 android {
     compileSdk 31
@@ -58,5 +45,6 @@ dependencies {
     implementation files('libs/SenterOpenApi_IoT_1.2.3.95_Common.jar')
     implementation files('libs/SenterOpenApi_IoT_1.2.3.95_Function_KeyManager.jar')
     implementation files('libs/serial.aar')
+
 }
 
