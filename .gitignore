@@ -10,5 +10,6 @@
 /captures
 .externalNativeBuild
 .cxx
+.transforms
 #忽略local.properties文件，此文件是用来保存项目依赖信息
 local.properties
