@@ -1,33 +1,27 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
-
 
 android {
     compileSdk 31
-
     defaultConfig {
         minSdk 21
         targetSdk 31
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
-
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
         }
     }
-
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     lintOptions {
         abortOnError false
         disable 'TypographyFractions', 'TypographyQuotes'
@@ -44,7 +38,32 @@ dependencies {
     implementation files('libs/gpioControl.jar')
     implementation files('libs/SenterOpenApi_IoT_1.2.3.95_Common.jar')
     implementation files('libs/SenterOpenApi_IoT_1.2.3.95_Function_KeyManager.jar')
-    implementation files('libs/serial.aar')
+    implementation project(':LocalRepo:Fot80J_aar')
 
 }
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'com.android' //You can either define these here or get them from project conf elsewhere
+            artifactId 'Device'
+            version '1.0.0'
+            artifact "$buildDir/outputs/aar/DeviceLib-release.aar" //aar artifact you want to publish
+
+            //generate pom nodes for dependencies
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.implementation.allDependencies.each { dependency ->
+                    if (dependency.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', dependency.group)
+                        dependencyNode.appendNode('artifactId', dependency.name)
+                        dependencyNode.appendNode('version', dependency.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
 

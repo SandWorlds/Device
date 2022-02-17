@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "Device"
 include ':app'
 include ':DeviceLib'
+include ':LocalRepo:Fot80J_aar'

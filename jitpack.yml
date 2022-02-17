@@ -1,2 +1,6 @@
 jdk:
   - openjdk11
+
+install:
+  - ./gradlew :DeviceLib:build  :DeviceLib:publishToMavenLocal
+  - find . -name "*.aar*
